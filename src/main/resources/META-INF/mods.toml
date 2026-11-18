@@ -1,0 +1,76 @@
+modLoader="javafml"
+loaderVersion="${loader_version_range}"
+license="${mod_license}"
+
+[[mods]]
+modId="${mod_id}"
+version="${mod_version}"
+displayName="${mod_name}"
+authors="${mod_authors}"
+credits="ngly250"
+displayURL="https://github.com/ngly250/maid-halo-compat"
+issueTrackerURL="https://github.com/ngly250/maid-halo-compat/issues"
+description='''${mod_description}'''
+
+[[dependencies.${mod_id}]]
+    modId="forge"
+    versionRange="${forge_version_range}"
+    mandatory=true
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="minecraft"
+    versionRange="${minecraft_version_range}"
+    mandatory=true
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="touhou_little_maid"
+    versionRange="[1.5.0,)"
+    mandatory=true
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="curios"
+    versionRange="[5.0.0,)"
+    mandatory=false
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.${mod_id}]]
+    modId="goety_revelation"
+    versionRange="[0,)"
+    ordering="AFTER"
+    side="BOTH"
+    mandatory=false
+
+[[dependencies.${mod_id}]]
+    modId="revelationfix"
+    versionRange="[0,)"
+    ordering="AFTER"
+    side="BOTH"
+    mandatory=false
+
+[[dependencies.${mod_id}]]
+    modId="goety"
+    versionRange="[0,)"
+    ordering="AFTER"
+    side="BOTH"
+    mandatory=false
+
+[[dependencies.${mod_id}]]
+    modId="fantasy_ending"
+    versionRange="[2.7,)"
+    mandatory=false
+    ordering="AFTER"
+    side="CLIENT"
+
+[[dependencies.${mod_id}]]
+    modId="minecraftbluearchivehalo"
+    versionRange="[1.0,)"
+    mandatory=false
+    ordering="AFTER"
+    side="CLIENT"

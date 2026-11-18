@@ -1,0 +1,247 @@
+plugins {
+    // 钉选 6.0.54（MDK 写 [6.0,6.2)）；版本更新时同步 versions.js 矩阵。
+    id 'net.minecraftforge.gradle' version '6.0.54'
+    id 'eclipse'
+    id 'idea'
+    id 'maven-publish'
+}
+
+version = "0.2.0"
+group = "com.ngly250.maidhalo"
+archivesBaseName = "maid-halo-compat"
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+
+minecraft {
+    mappings channel: mapping_channel, version: mapping_version
+    copyIdeResources = true
+    runs {
+        client {
+            workingDirectory project.file('run')
+        }
+        server {
+            workingDirectory project.file('run')
+        }
+        gameTestServer {
+            workingDirectory project.file('run')
+        }
+        data {
+            workingDirectory project.file('run')
+            args '--mod', mod_id, '--all'
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    minecraft "net.minecraftforge:forge:1.20.1-47.3.0"
+
+    // 只做编译期依赖，不会打进产物；运行时由整合包自带的同名模组提供。
+    //（生产 jar 里模组自身的类名/方法名不混淆，因此可以直接 compileOnly 引用。）
+    compileOnly files('libs/touhoulittlemaid-1.5.3.jar')
+    compileOnly files('libs/curios-forge-5.14.1.jar')
+
+    // Goety / Goety: Revelation / RevelationFix 的类一律通过反射访问（见 HaloKind / *HaloRenderer），
+    // 因此不需要把动辄几十 MB 的模组本体加入编译类路径，也就不会有缺模组时 NoClassDefFoundError。
+}
+
+// ---------------------------------------------------------------- 元数据校验
+// FML 要求每个 [[dependencies.*]] 块都显式写 mandatory；漏写会让整个 jar 被判定为
+// InvalidModFileException（游戏里表现为模组被跳过/加载失败），所以放进 check 里拦住。
+tasks.register('verifyModMetadata') {
+    group = 'verification'
+    description = '校验生成的 mods.toml：依赖块必须含 modId/versionRange/mandatory'
+    dependsOn tasks.named('processResources')
+    doLast {
+        File toml = project.file("${project.buildDir}/resources/main/META-INF/mods.toml")
+        if (!toml.isFile()) {
+            throw new GradleException("找不到 ${toml}")
+        }
+        String text = toml.getText('UTF-8')
+        ['modLoader', 'loaderVersion', 'license', '[[mods]]', 'modId', 'version', 'displayName'].each { key ->
+            if (!text.contains(key)) {
+                throw new GradleException("mods.toml 缺少必填项: ${key}")
+            }
+        }
+        List<String> blocks = text.split(/\[\[dependencies\./).toList()
+        if (blocks.size() <= 1) {
+            throw new GradleException("mods.toml 没有任何 [[dependencies.*]] 块")
+        }
+        int index = 0
+        blocks.drop(1).each { block ->
+            index++
+            if (!block.contains('modId')) {
+                throw new GradleException("依赖块 #${index} 缺少 modId")
+            }
+            if (!block.contains('versionRange')) {
+                throw new GradleException("依赖块 #${index} 缺少 versionRange")
+            }
+            if (!block.contains('mandatory')) {
+                throw new GradleException("依赖块 #${index} 缺少 mandatory（FML 会判定整个 jar 无效）")
+            }
+        }
+        if (!text.contains('modId="' + mod_id + '"')) {
+            throw new GradleException("mods.toml 的 modId 不是 ${mod_id}")
+        }
+        println "  OK   mods.toml (${index} 个依赖块均含 modId/versionRange/mandatory)"
+    }
+}
+
+tasks.named('check') {
+    dependsOn tasks.named('verifyModMetadata')
+}
+
+// ---------------------------------------------------------------- 静态校验
+// 光环模型按「外部契约」使用：反射调用 createBodyLayer(...)，再按骨骼名取节点。
+// 这里直接读真实 jar 的 class 常量池，校验契约（方法名/描述符/骨骼名）没变。
+// 注意：终末之环的类位于 Goety: Revelation 内嵌的 RevelationFix jar（META-INF/jarjar/*.jar）里。
+
+def haloContractProblems = []
+haloContractProblems.addAll(checkHaloContract(
+    '../[诡厄巫法：启示录] GoetyRevelation-2.3.6.jar', null,
+    'z1gned/goetyrevelation/client/model/PlayerHaloModel.class',
+    'createBodyLayer',
+    '(Lnet/minecraft/client/model/geom/builders/CubeDeformation;)Lnet/minecraft/client/model/geom/builders/LayerDefinition;',
+    'halo', 'halo1', 'head'))
+haloContractProblems.addAll(checkHaloContract(
+    '../[诡厄巫法：启示录] GoetyRevelation-2.3.6.jar', 'META-INF/jarjar/',
+    'com/mega/revelationfix/common/odamane/client/OdamaneHaloModel.class',
+    'createBodyLayer',
+    '()Lnet/minecraft/client/model/geom/builders/LayerDefinition;',
+    'Halo', 'bone', 'bone2', 'bone3', 'bone4', 'bone5'))
+
+// 诡厄巫法本体：不洁圣冠光环模型 + 辉光渲染通道
+haloContractProblems.addAll(checkHaloContract(
+    '../[诡厄巫法] goety-2.5.60.6.jar', null,
+    'com/Polarice3/Goety/client/render/model/UnholyHatModel.class',
+    'createBodyLayer',
+    '()Lnet/minecraft/client/model/geom/builders/LayerDefinition;',
+    'halo', 'halo_1'))
+
+haloContractProblems.addAll(checkHaloContract(
+    '../[诡厄巫法] goety-2.5.60.6.jar', null,
+    'com/Polarice3/Goety/client/render/ModRenderType.class',
+    'wraith',
+    '(Lnet/minecraft/resources/ResourceLocation;)Lnet/minecraft/client/renderer/RenderType;'))
+
+// 终末之环「半血后处理」反射契约：RevelationFix 的 odamane 管线（4.9 起）
+def rfJar = '../[诡厄巫法：启示录] GoetyRevelation-2.3.6.jar'
+haloContractProblems.addAll(checkHaloContract(rfJar, 'META-INF/jarjar/',
+    'com/mega/revelationfix/client/citadel/GRRenderTypes.class', 'getOdamane', 'odamane_target'))
+haloContractProblems.addAll(checkHaloContract(rfJar, 'META-INF/jarjar/',
+    'com/mega/revelationfix/client/citadel/PostEffectRegistry.class', 'renderEffectForNextTick', 'getRenderTargetFor'))
+haloContractProblems.addAll(checkHaloContract(rfJar, 'META-INF/jarjar/',
+    'com/mega/revelationfix/proxy/ClientProxy.class', 'ODAMANE_SHADER'))
+haloContractProblems.addAll(checkHaloContract(rfJar, 'META-INF/jarjar/',
+    'com/mega/revelationfix/common/config/ClientConfig.class', 'enableSpecialHaloEffect'))
+haloContractProblems.addAll(checkHaloContract(rfJar, 'META-INF/jarjar/',
+    'com/mega/revelationfix/common/compat/SafeClass.class', 'usingShaderPack'))
+haloContractProblems.addAll(checkHaloContract(rfJar, 'META-INF/jarjar/',
+    'com/mega/revelationfix/client/renderer/MegaRenderType.class', 'getEyesAlphaEnabled'))
+
+// 泡影之领域（梦幻终焉）：反射调用其 Curios 渲染器
+def feJar = '../[梦幻终焉] fantasy_ending-1.20.1-2.7.20-all.jar'
+haloContractProblems.addAll(checkHaloContract(feJar, null,
+    'com/mega/uom/client/render/curios/DomainOfFadeRenderer.class', 'DomainOfFadeRenderer', 'render'))
+haloContractProblems.addAll(checkHaloContract(feJar, null,
+    'com/mega/uom/common/items/curios/TheDomainOfFadeCurio.class', 'TheDomainOfFadeCurio'))
+
+// 碧蓝档案光环包：反射复用其 GeckoLib 护甲渲染器
+def baJar = '../Blue-Archive-Halos-forge-1.20.1-1.0.20.0.jar'
+haloContractProblems.addAll(checkHaloContract(baJar, null,
+    'com/spicywolf/minecraftbluearchivehalo/item/custom/HaloItem.class', 'HaloItem', 'ArmorItem'))
+haloContractProblems.addAll(checkHaloContract(baJar, null,
+    'com/spicywolf/minecraftbluearchivehalo/item/custom/HaloClientItem.class', 'getHumanoidArmorModel'))
+
+tasks.register('verifyHaloModels') {
+    group = 'verification'
+    description = '静态校验光环模型契约：反射方法名/描述符 + 骨骼节点名'
+    doLast {
+        if (!haloContractProblems.isEmpty()) {
+            haloContractProblems.each { println "  FAIL ${it}" }
+            throw new GradleException("光环模型契约校验失败 (${haloContractProblems.size()})")
+        }
+        println '光环模型契约校验通过。'
+    }
+}
+
+/**
+ * 读取（可选的）内嵌 jar 里某个 class 的常量池字节串，逐项检查契约 token。
+ * innerJarPrefix 为 null 时直接读外层 jar。
+ */
+List<String> checkHaloContract(String jarPath, String innerJarPrefix, String entryName, String... tokens) {
+    List<String> problems = []
+    File jar = project.file(jarPath)
+    if (!jar.isFile()) {
+        problems.add("缺少被测 jar: ${jarPath}")
+        return problems
+    }
+    java.util.zip.ZipFile outer = new java.util.zip.ZipFile(jar)
+    java.util.zip.ZipFile target = outer
+    try {
+        if (innerJarPrefix != null) {
+            java.util.zip.ZipEntry nestedEntry = null
+            for (java.util.zip.ZipEntry candidate : outer.entries()) {
+                if (candidate.name.startsWith(innerJarPrefix) && candidate.name.endsWith('.jar')) {
+                    nestedEntry = candidate
+                    break
+                }
+            }
+            if (nestedEntry == null) {
+                problems.add("${jar.name} 中找不到内嵌 jar (${innerJarPrefix}*.jar)")
+                return problems
+            }
+            File tmp = project.file("${project.buildDir}/tmp/" + nestedEntry.name.replaceAll('[^A-Za-z0-9._-]', '_'))
+            tmp.parentFile.mkdirs()
+            tmp.bytes = outer.getInputStream(nestedEntry).bytes
+            target = new java.util.zip.ZipFile(tmp)
+        }
+        java.util.zip.ZipEntry entry = target.getEntry(entryName)
+        if (entry == null) {
+            problems.add("${jar.name} 中找不到 ${entryName}")
+            return problems
+        }
+        String text = target.getInputStream(entry).getText('ISO-8859-1')
+        for (String token : tokens) {
+            if (!text.contains(token)) {
+                problems.add("${entryName} 缺少契约成员: ${token}")
+            }
+        }
+        if (problems.isEmpty()) {
+            println "  OK   ${entryName}"
+        }
+    } finally {
+        if (target != outer) {
+            target.close()
+        }
+        outer.close()
+    }
+    return problems
+}
+
+// mods.toml / pack.mcmeta 里的 ${mod_id} 等由 Gradle expand 替换（与 scaffold 的 {{}} 不冲突）。
+def replaceProperties = [
+    minecraft_version: minecraft_version, forge_version: forge_version,
+    minecraft_version_range: minecraft_version_range,
+    forge_version_range: forge_version_range,
+    loader_version_range: loader_version_range,
+    mod_id: mod_id, mod_name: mod_name, mod_license: mod_license,
+    mod_version: mod_version, mod_authors: mod_authors, mod_description: mod_description,
+]
+
+processResources {
+    filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) { expand replaceProperties }
+}
+
+jar {
+    manifest {
+        attributes([
+            "Specification-Title": mod_id,
+            "Implementation-Version": project.version,
+        ])
+    }
+    finalizedBy 'reobfJar'
+}
