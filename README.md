@@ -86,7 +86,9 @@
 ## 构建（开发者）
 
 ```bash
-# 先在 libs/ 放入编译期依赖 jar（不随仓库分发，见 libs/README.md）
+# 编译需要两个「仅编译期」依赖（不随仓库分发，需自行放入 libs/）：
+#   libs/touhoulittlemaid-1.5.3.jar   （车万女仆）
+#   libs/curios-forge-5.14.1.jar      （Curios）
 ./gradlew build        # 产物：build/libs/maid-halo-compat-0.2.0.jar
 ./gradlew runClient    # 开发客户端
 ```
