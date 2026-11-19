@@ -79,6 +79,7 @@ public class HaloConfigScreen extends Screen {
     private boolean draggingScrollbar;
     private int dragGrabOffset;
     private String hoveredId;
+    private String pickerHoveredId;
 
     public HaloConfigScreen(Screen parent) {
         super(Component.translatable("gui.maid_halo_compat.config.title"));
@@ -303,10 +304,15 @@ public class HaloConfigScreen extends Screen {
 
         this.drawScrollbar(graphics, mouseX, mouseY);
 
+        this.pickerHoveredId = null;
         if (this.pickerOpen) {
             graphics.flush();
             this.renderPicker(graphics, mouseX, mouseY);
             graphics.flush();
+            // 选择器里的条目悬停提示（面板之后画，保证在列表之上）
+            if (this.pickerHoveredId != null) {
+                graphics.renderTooltip(this.font, Component.literal(this.pickerHoveredId), mouseX, mouseY);
+            }
         } else if (this.hoveredId != null) {
             graphics.renderTooltip(this.font, Component.literal(this.hoveredId), mouseX, mouseY);
         }
@@ -647,6 +653,12 @@ public class HaloConfigScreen extends Screen {
         graphics.drawString(this.font, Component.translatable("gui.maid_halo_compat.config.pick_model"),
                 x0 + 8, this.pickerTop + 6, 0xFF9CC8FF, false);
 
+        // 搜索框也是 Screen 的控件，会被 super.render 画在面板之下，这里在面板之上再画一次
+        if (this.searchBox != null) {
+            this.searchBox.render(graphics, mouseX, mouseY,
+                    this.minecraft == null ? 0.0F : this.minecraft.getFrameTime());
+        }
+
         int listRight = this.pickerTrackX() - 4;
         int clipTop = this.pickerTrackTop();
         int clipBottom = this.pickerBottom - 2;
@@ -670,7 +682,7 @@ public class HaloConfigScreen extends Screen {
                 } else {
                     if (hovered) {
                         graphics.fill(x0 + 2, y, listRight, y + PICKER_ROW - 1, 0xFF243445);
-                        this.hoveredId = row.entry().id();
+                        this.pickerHoveredId = row.entry().id();
                     }
                     graphics.drawString(this.font, row.entry().display(), x0 + 26, y + 4,
                             hovered ? 0xFFFFFF80 : 0xFFDDDDDD, false);
