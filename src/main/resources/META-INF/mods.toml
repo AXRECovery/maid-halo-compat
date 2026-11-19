@@ -7,9 +7,9 @@ modId="${mod_id}"
 version="${mod_version}"
 displayName="${mod_name}"
 authors="${mod_authors}"
-credits="ngly250"
-displayURL="https://github.com/ngly250/maid-halo-compat"
-issueTrackerURL="https://github.com/ngly250/maid-halo-compat/issues"
+credits="AXRECovery"
+displayURL="https://github.com/AXRECovery/maid-halo-compat"
+issueTrackerURL="https://github.com/AXRECovery/maid-halo-compat/issues"
 description='''${mod_description}'''
 
 [[dependencies.${mod_id}]]

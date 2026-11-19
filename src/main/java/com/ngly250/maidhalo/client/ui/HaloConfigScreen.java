@@ -74,6 +74,8 @@ public class HaloConfigScreen extends Screen {
     private int pickerScroll;
     private int pickerTop;
     private int pickerBottom;
+    private EditBox searchBox;
+    private String searchQuery = "";
     private boolean draggingScrollbar;
     private int dragGrabOffset;
     private String hoveredId;
@@ -347,7 +349,14 @@ public class HaloConfigScreen extends Screen {
             int x0 = this.left();
             int x1 = this.right();
             if (mouseX >= x0 && mouseX < x1 && mouseY >= this.pickerTop && mouseY < this.pickerBottom) {
+                if (this.searchBox != null && this.searchBox.mouseClicked(mouseX, mouseY, button)) {
+                    return true;
+                }
                 if (button != 0) {
+                    return true;
+                }
+                // 点搜索框区域（空白处）不当作列表点击
+                if (this.searchBox != null && mouseY < this.pickerTrackTop() - 2) {
                     return true;
                 }
                 int trackX = this.pickerTrackX();
@@ -370,16 +379,14 @@ public class HaloConfigScreen extends Screen {
                         if (row.header()) {
                             this.toggleGroup(row.groupKey());
                         } else {
-                            this.pickerOpen = false;
-                            this.attachBaseWidgets();
+                            this.closePicker();
                             this.addModelRow(row.entry().id());
                         }
                     }
                 }
                 return true;
             }
-            this.pickerOpen = false;
-            this.attachBaseWidgets();
+            this.closePicker();
             return true;
         }
         return super.mouseClicked(mouseX, mouseY, button);
@@ -404,8 +411,11 @@ public class HaloConfigScreen extends Screen {
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if (this.pickerOpen) {
             if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
-                this.pickerOpen = false;
-                this.attachBaseWidgets();
+                this.closePicker();
+                return true;
+            }
+            if (this.searchBox != null) {
+                this.searchBox.keyPressed(keyCode, scanCode, modifiers);
             }
             return true;
         }
@@ -499,10 +509,36 @@ public class HaloConfigScreen extends Screen {
         this.pickerOpen = !this.pickerOpen;
         if (this.pickerOpen) {
             this.detachBaseWidgets();
+            this.createSearchBox();
             this.refreshPicker();
         } else {
-            this.attachBaseWidgets();
+            this.closePicker();
         }
+    }
+
+    /** 选择器里的搜索框（按名字或 id 过滤）。 */
+    private void createSearchBox() {
+        this.searchQuery = "";
+        int pickerTop = this.listTop + 4;
+        this.searchBox = new EditBox(this.font, this.left() + 8, pickerTop + 18, this.right() - this.left() - 60, 16,
+                Component.translatable("gui.maid_halo_compat.config.search"));
+        this.searchBox.setMaxLength(64);
+        this.searchBox.setHint(Component.translatable("gui.maid_halo_compat.config.search_hint"));
+        this.searchBox.setResponder(query -> {
+            this.searchQuery = query == null ? "" : query.trim();
+            this.refreshPicker();
+        });
+        this.addRenderableWidget(this.searchBox);
+        this.setFocused(this.searchBox);
+    }
+
+    private void closePicker() {
+        this.pickerOpen = false;
+        if (this.searchBox != null) {
+            this.removeWidget(this.searchBox);
+            this.searchBox = null;
+        }
+        this.attachBaseWidgets();
     }
 
     private void refreshPicker() {
@@ -513,18 +549,31 @@ public class HaloConfigScreen extends Screen {
             }
             this.collapseInit = true;
         }
+        String query = this.searchQuery == null ? "" : this.searchQuery.toLowerCase(java.util.Locale.ROOT);
+        boolean searching = !query.isEmpty();
         this.pickRows.clear();
         for (MaidModelCatalog.Group group : groups) {
             List<MaidModelCatalog.Entry> visible = new ArrayList<>();
             for (MaidModelCatalog.Entry entry : group.entries()) {
                 boolean already = this.rows.stream()
                         .anyMatch(row -> row.kind == Kind.MODEL && entry.id().equals(row.modelId));
-                if (!already) {
-                    visible.add(entry);
+                if (already) {
+                    continue;
                 }
+                if (searching) {
+                    String name = entry.display() == null ? "" : entry.display().toLowerCase(java.util.Locale.ROOT);
+                    String id = entry.id() == null ? "" : entry.id().toLowerCase(java.util.Locale.ROOT);
+                    if (!name.contains(query) && !id.contains(query)) {
+                        continue;
+                    }
+                }
+                visible.add(entry);
+            }
+            if (searching && visible.isEmpty()) {
+                continue;   // 搜索时不显示空分组
             }
             this.pickRows.add(new PickRow(group.key(), group.title(), null, visible.size()));
-            if (!this.collapsed.contains(group.key())) {
+            if (searching || !this.collapsed.contains(group.key())) {
                 for (MaidModelCatalog.Entry entry : visible) {
                     this.pickRows.add(new PickRow(group.key(), null, entry, 0));
                 }
@@ -545,7 +594,7 @@ public class HaloConfigScreen extends Screen {
     }
 
     private int pickerTrackTop() {
-        return this.pickerTop + 22;
+        return this.pickerTop + 42;
     }
 
     private int pickerTrackHeight() {

@@ -2,7 +2,7 @@
 
 让 **车万女仆（Touhou Little Maid）** 戴上光环饰品时，像玩家一样正常显示。
 
-> Minecraft **1.20.1** · Forge **47.x** · **仅客户端** · 当前版本 **0.2.0**
+> Minecraft **1.20.1** · Forge **47.x** · **仅客户端** · 当前版本 **0.3.0**
 
 女仆在原版里用的是完全独立的渲染管线，光环类饰品虽然能装备，但画面上不会出现。
 本模组通过车万女仆官方的扩展接口，把光环按**与玩家一致的绘制方式**补到女仆身上 ——
@@ -93,7 +93,7 @@ A: 可以，经测试落幕曲1.6.8可正常运行。
 # 编译需要两个「仅编译期」依赖（不随仓库分发，需自行放入 libs/）：
 #   libs/touhoulittlemaid-1.5.3.jar   （车万女仆）
 #   libs/curios-forge-5.14.1.jar      （Curios）
-./gradlew build        # 产物：build/libs/maid-halo-compat-0.2.0.jar
+./gradlew build        # 产物：build/libs/maid-halo-compat-0.3.0.jar
 ./gradlew runClient    # 开发客户端
 ```
 
@@ -102,4 +102,4 @@ A: 可以，经测试落幕曲1.6.8可正常运行。
 
 ## 许可
 
-MIT License · Copyright (c) 2026 **ngly250**
+MIT License · Copyright (c) 2026 **AXRECovery**

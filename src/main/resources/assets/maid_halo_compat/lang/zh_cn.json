@@ -44,5 +44,7 @@
   "gui.maid_halo_compat.opt.offsets.domainOfFadeOffsetZ": "泡影之领域 Z",
   "gui.maid_halo_compat.opt.offsets.blueArchiveOffsetX": "碧蓝档案光环 X",
   "gui.maid_halo_compat.opt.offsets.blueArchiveOffsetY": "碧蓝档案光环 Y",
-  "gui.maid_halo_compat.opt.offsets.blueArchiveOffsetZ": "碧蓝档案光环 Z"
+  "gui.maid_halo_compat.opt.offsets.blueArchiveOffsetZ": "碧蓝档案光环 Z",
+  "gui.maid_halo_compat.config.search": "搜索模型",
+  "gui.maid_halo_compat.config.search_hint": "按名字或 id 搜索…"
 }

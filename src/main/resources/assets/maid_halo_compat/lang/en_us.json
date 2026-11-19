@@ -44,5 +44,7 @@
   "gui.maid_halo_compat.opt.offsets.domainOfFadeOffsetZ": "Domain of Fade Z",
   "gui.maid_halo_compat.opt.offsets.blueArchiveOffsetX": "Blue Archive X",
   "gui.maid_halo_compat.opt.offsets.blueArchiveOffsetY": "Blue Archive Y",
-  "gui.maid_halo_compat.opt.offsets.blueArchiveOffsetZ": "Blue Archive Z"
+  "gui.maid_halo_compat.opt.offsets.blueArchiveOffsetZ": "Blue Archive Z",
+  "gui.maid_halo_compat.config.search": "Search models",
+  "gui.maid_halo_compat.config.search_hint": "Search by name or id…"
 }
