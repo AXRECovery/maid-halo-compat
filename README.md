@@ -90,15 +90,16 @@ A: 可以，经测试落幕曲1.6.8可正常运行。
 ## 构建（开发者）
 
 ```bash
-# 编译需要两个「仅编译期」依赖（不随仓库分发，需自行放入 libs/）：
-#   libs/touhoulittlemaid-1.5.3.jar   （车万女仆）
-#   libs/curios-forge-5.14.1.jar      （Curios）
 ./gradlew build        # 产物：build/libs/maid-halo-compat-0.3.0.jar
 ./gradlew runClient    # 开发客户端
 ```
 
-需要 JDK 17；若 Gradle 找不到本机 JDK 17，可显式指定：
-`./gradlew build -Porg.gradle.java.installations.paths="C:/path/to/jdk-17"`
+- 需要 **JDK 17**（Gradle toolchain 会自动查找；找不到时可用
+  `./gradlew build -Porg.gradle.java.installations.paths="C:/path/to/jdk-17"` 显式指定）；
+- **无需手动放置任何依赖 jar**：车万女仆（Modrinth Maven）与 Curios（theillusivec4 Maven）
+  作为 `compileOnly` 依赖在首次构建时自动下载，不会打进产物；
+- 若本机需要代理才能访问 Maven，可加
+  `-Dhttps.proxyHost=127.0.0.1 -Dhttps.proxyPort=7897`（按需替换端口）。
 
 ## 许可
 

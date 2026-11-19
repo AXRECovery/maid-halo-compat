@@ -34,15 +34,21 @@ minecraft {
 
 repositories {
     mavenCentral()
+    // Curios（编译期 API）
+    maven { url = "https://maven.theillusivec4.top/" }
+    // 车万女仆（Modrinth Maven，编译期 API）
+    maven { url = "https://api.modrinth.com/maven" }
 }
 
 dependencies {
     minecraft "net.minecraftforge:forge:1.20.1-47.3.0"
 
     // 只做编译期依赖，不会打进产物；运行时由整合包自带的同名模组提供。
-    //（生产 jar 里模组自身的类名/方法名不混淆，因此可以直接 compileOnly 引用。）
-    compileOnly files('libs/touhoulittlemaid-1.5.3.jar')
-    compileOnly files('libs/curios-forge-5.14.1.jar')
+    // 依赖从公共 Maven 自动拉取，克隆仓库后无需手动放置任何 jar：
+    //   - 车万女仆：Modrinth Maven
+    //   - Curios ：theillusivec4 Maven
+    compileOnly "maven.modrinth:touhou-little-maid:1.5.3-forge+mc1.20.1"
+    compileOnly "top.theillusivec4.curios:curios-forge:5.14.1+1.20.1"
 
     // Goety / Goety: Revelation / RevelationFix 的类一律通过反射访问（见 HaloKind / *HaloRenderer），
     // 因此不需要把动辄几十 MB 的模组本体加入编译类路径，也就不会有缺模组时 NoClassDefFoundError。
