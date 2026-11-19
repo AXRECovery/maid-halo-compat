@@ -1,6 +1,6 @@
-package com.ngly250.maidhalo.client.halo;
+package com.axrecovery.maidhalo.client.halo;
 
-import com.ngly250.maidhalo.config.MaidHaloConfig;
+import com.axrecovery.maidhalo.config.MaidHaloConfig;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.IMaid;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.Blaze3D;

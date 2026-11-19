@@ -1,6 +1,6 @@
-package com.ngly250.maidhalo.client.ui;
+package com.axrecovery.maidhalo.client.ui;
 
-import com.ngly250.maidhalo.config.MaidHaloConfig;
+import com.axrecovery.maidhalo.config.MaidHaloConfig;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -356,6 +356,8 @@ public class HaloConfigScreen extends Screen {
             int x1 = this.right();
             if (mouseX >= x0 && mouseX < x1 && mouseY >= this.pickerTop && mouseY < this.pickerBottom) {
                 if (this.searchBox != null && this.searchBox.mouseClicked(mouseX, mouseY, button)) {
+                    this.setFocused(this.searchBox);
+                    this.searchBox.setFocused(true);
                     return true;
                 }
                 if (button != 0) {
@@ -414,6 +416,15 @@ public class HaloConfigScreen extends Screen {
     }
 
     @Override
+    public boolean charTyped(char codePoint, int modifiers) {
+        if (this.pickerOpen && this.searchBox != null) {
+            this.searchBox.setFocused(true);
+            return this.searchBox.charTyped(codePoint, modifiers);
+        }
+        return super.charTyped(codePoint, modifiers);
+    }
+
+    @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if (this.pickerOpen) {
             if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
@@ -421,6 +432,7 @@ public class HaloConfigScreen extends Screen {
                 return true;
             }
             if (this.searchBox != null) {
+                this.setFocused(this.searchBox);
                 this.searchBox.keyPressed(keyCode, scanCode, modifiers);
             }
             return true;
@@ -481,7 +493,7 @@ public class HaloConfigScreen extends Screen {
             return;
         }
         this.rows.add(this.modelRow(modelId,
-                com.ngly250.maidhalo.client.halo.EndHaloRenderer.defaultEndHaloLift(modelId)));
+                com.axrecovery.maidhalo.client.halo.EndHaloRenderer.defaultEndHaloLift(modelId)));
         this.layoutRows();
     }
 
@@ -555,8 +567,8 @@ public class HaloConfigScreen extends Screen {
             }
             this.collapseInit = true;
         }
-        String query = this.searchQuery == null ? "" : this.searchQuery.toLowerCase(java.util.Locale.ROOT);
-        boolean searching = !query.isEmpty();
+        String query = this.searchQuery == null ? "" : this.searchQuery;
+        boolean searching = !query.trim().isEmpty();
         this.pickRows.clear();
         for (MaidModelCatalog.Group group : groups) {
             List<MaidModelCatalog.Entry> visible = new ArrayList<>();
@@ -567,9 +579,10 @@ public class HaloConfigScreen extends Screen {
                     continue;
                 }
                 if (searching) {
-                    String name = entry.display() == null ? "" : entry.display().toLowerCase(java.util.Locale.ROOT);
-                    String id = entry.id() == null ? "" : entry.id().toLowerCase(java.util.Locale.ROOT);
-                    if (!name.contains(query) && !id.contains(query)) {
+                    // 支持拼音/首字母搜索（装了 JECh 时），否则退化为普通子串匹配
+                    String name = entry.display() == null ? "" : entry.display();
+                    String id = entry.id() == null ? "" : entry.id();
+                    if (!PinyinMatch.matches(name, query) && !PinyinMatch.matches(id, query)) {
                         continue;
                     }
                 }
@@ -655,6 +668,11 @@ public class HaloConfigScreen extends Screen {
 
         // 搜索框也是 Screen 的控件，会被 super.render 画在面板之下，这里在面板之上再画一次
         if (this.searchBox != null) {
+            // 保证搜索框始终持有键盘焦点（选择器是模态的，键盘只该作用于搜索框）
+            if (!this.searchBox.isFocused()) {
+                this.setFocused(this.searchBox);
+                this.searchBox.setFocused(true);
+            }
             this.searchBox.render(graphics, mouseX, mouseY,
                     this.minecraft == null ? 0.0F : this.minecraft.getFrameTime());
         }

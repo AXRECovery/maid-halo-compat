@@ -22,7 +22,7 @@
   "gui.maid_halo_compat.opt.general.enableEndHalo": "启用终末之环",
   "gui.maid_halo_compat.opt.general.enableUnholyHatHalo": "启用不洁圣冠光环",
   "gui.maid_halo_compat.opt.general.enableDomainOfFade": "启用泡影之领域",
-  "gui.maid_halo_compat.opt.general.enableBlueArchiveHalo": "启用碧蓝档案光环",
+  "gui.maid_halo_compat.opt.general.enableBlueArchiveHalo": "启用BA光环",
   "gui.maid_halo_compat.opt.general.unholyHatRenderFullModel": "不洁圣冠：绘制整套帽子",
   "gui.maid_halo_compat.opt.general.enableEndHaloSecondPhasePostFx": "终末之环：半血后处理特效",
   "gui.maid_halo_compat.opt.general.geckoModelSpaceFlip": "GeckoLib 模型空间翻转",
@@ -42,9 +42,9 @@
   "gui.maid_halo_compat.opt.offsets.domainOfFadeOffsetX": "泡影之领域 X",
   "gui.maid_halo_compat.opt.offsets.domainOfFadeOffsetY": "泡影之领域 Y",
   "gui.maid_halo_compat.opt.offsets.domainOfFadeOffsetZ": "泡影之领域 Z",
-  "gui.maid_halo_compat.opt.offsets.blueArchiveOffsetX": "碧蓝档案光环 X",
-  "gui.maid_halo_compat.opt.offsets.blueArchiveOffsetY": "碧蓝档案光环 Y",
-  "gui.maid_halo_compat.opt.offsets.blueArchiveOffsetZ": "碧蓝档案光环 Z",
+  "gui.maid_halo_compat.opt.offsets.blueArchiveOffsetX": "BA光环 X",
+  "gui.maid_halo_compat.opt.offsets.blueArchiveOffsetY": "BA光环 Y",
+  "gui.maid_halo_compat.opt.offsets.blueArchiveOffsetZ": "BA光环 Z",
   "gui.maid_halo_compat.config.search": "搜索模型",
   "gui.maid_halo_compat.config.search_hint": "按名字或 id 搜索…"
 }

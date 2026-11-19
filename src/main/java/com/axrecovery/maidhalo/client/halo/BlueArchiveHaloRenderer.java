@@ -1,4 +1,4 @@
-package com.ngly250.maidhalo.client.halo;
+package com.axrecovery.maidhalo.client.halo;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import java.lang.reflect.Method;
@@ -13,7 +13,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * 碧蓝档案光环包（Blue-Archive-Halos）的女仆侧绘制 —— **照搬玩家侧方案**。
+ * BA光环包（Blue-Archive-Halos）的女仆侧绘制 —— **照搬玩家侧方案**。
  *
  * <p>玩家侧链路（原模组实现）：</p>
  * <ol>
@@ -59,7 +59,7 @@ public final class BlueArchiveHaloRenderer {
         initialized = true;
         if (!CompatMods.isLoaded(CompatMods.BLUE_ARCHIVE)) {
             available = false;
-            LOGGER.debug("未检测到 minecraftbluearchivehalo，跳过碧蓝档案光环适配");
+            LOGGER.debug("未检测到 minecraftbluearchivehalo，跳过BA光环适配");
             return;
         }
         try {
@@ -89,7 +89,7 @@ public final class BlueArchiveHaloRenderer {
             doPostRenderCleanup = armorRenderer.getMethod("doPostRenderCleanup");
 
             available = true;
-            LOGGER.debug("已接入碧蓝档案光环（照搬玩家侧 GeoArmorRenderer 方案）");
+            LOGGER.debug("已接入BA光环（照搬玩家侧 GeoArmorRenderer 方案）");
         } catch (Throwable t) {
             available = false;
             extensionsOf = null;
@@ -99,7 +99,7 @@ public final class BlueArchiveHaloRenderer {
             getRenderType = null;
             defaultRender = null;
             doPostRenderCleanup = null;
-            LOGGER.warn("无法接入碧蓝档案光环渲染器，女仆将不渲染该光环：{}", t.toString());
+            LOGGER.warn("无法接入BA光环渲染器，女仆将不渲染该光环：{}", t.toString());
         }
     }
 
@@ -164,7 +164,7 @@ public final class BlueArchiveHaloRenderer {
         } catch (Throwable t) {
             if (!failureLogged) {
                 failureLogged = true;
-                LOGGER.warn("碧蓝档案光环渲染调用失败（之后不再重复记录）：{}", t.toString());
+                LOGGER.warn("BA光环渲染调用失败（之后不再重复记录）：{}", t.toString());
             }
         }
     }

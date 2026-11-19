@@ -1,13 +1,13 @@
-package com.ngly250.maidhalo.client.layer;
+package com.axrecovery.maidhalo.client.layer;
 
-import com.ngly250.maidhalo.client.halo.HaloRenderDispatcher;
+import com.axrecovery.maidhalo.client.halo.HaloRenderDispatcher;
 import com.github.tartaricacid.touhoulittlemaid.geckolib3.core.processor.ILocationBone;
 import com.github.tartaricacid.touhoulittlemaid.geckolib3.geo.GeoLayerRenderer;
 import com.github.tartaricacid.touhoulittlemaid.geckolib3.geo.IGeoEntity;
 import com.github.tartaricacid.touhoulittlemaid.geckolib3.geo.IGeoEntityRenderer;
 import com.github.tartaricacid.touhoulittlemaid.geckolib3.geo.animated.ILocationModel;
 import com.github.tartaricacid.touhoulittlemaid.geckolib3.util.RenderUtils;
-import com.ngly250.maidhalo.config.MaidHaloConfig;
+import com.axrecovery.maidhalo.config.MaidHaloConfig;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import org.joml.Vector3f;

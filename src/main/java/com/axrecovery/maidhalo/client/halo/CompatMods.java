@@ -1,4 +1,4 @@
-package com.ngly250.maidhalo.client.halo;
+package com.axrecovery.maidhalo.client.halo;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -8,7 +8,7 @@ import net.minecraftforge.fml.ModList;
  * 兼容目标模组的「存在性」检测。
  *
  * <p>本模组前置只要求车万女仆（TLM）；其余模组（诡厄巫法、启示录、RevelationFix、
- * 梦幻终焉、碧蓝档案光环包）都是可选的。所有适配代码在运行前都会先经过这里判断，
+ * 梦幻终焉、BA光环包）都是可选的。所有适配代码在运行前都会先经过这里判断，
  * 对应模组没安装时**不会**加载任何相关类、也不会做任何渲染工作。</p>
  */
 public final class CompatMods {

@@ -1,6 +1,6 @@
-package com.ngly250.maidhalo.client.halo;
+package com.axrecovery.maidhalo.client.halo;
 
-import com.ngly250.maidhalo.config.MaidHaloConfig;
+import com.axrecovery.maidhalo.config.MaidHaloConfig;
 import com.mojang.blaze3d.vertex.PoseStack;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -77,8 +77,8 @@ public final class HaloRenderDispatcher {
 
         // 与玩家侧一一对应：
         //   终末之环 / 泡影之领域 = 身体锁定（玩家侧分别在 OdamaneHaloLayer、Curios 层绘制，不带头部变换）
-        //   晋升/破碎之环、不洁圣冠、碧蓝档案光环 = 头锁
-        //   碧蓝档案光环：与晋升之环用同一个头部基座即可 —— GeoArmorRenderer 内部的
+        //   晋升/破碎之环、不洁圣冠、BA光环 = 头锁
+        //   BA光环：与晋升之环用同一个头部基座即可 —— GeoArmorRenderer 内部的
         //   T = translate(0,1.5,0)·scale(-1,-1,1) 会把 armor 几何里「头在 y=1.5」映射到模型空间原点，
         //   也就是我们 pose 所在的头部位置，不需要再额外变换（额外变换正是之前跑偏的原因）。
         boolean headLocked = kind != HaloKind.END && kind != HaloKind.DOMAIN_OF_FADE;

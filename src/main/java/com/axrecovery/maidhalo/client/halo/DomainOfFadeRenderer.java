@@ -1,4 +1,4 @@
-package com.ngly250.maidhalo.client.halo;
+package com.axrecovery.maidhalo.client.halo;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import java.lang.reflect.Constructor;

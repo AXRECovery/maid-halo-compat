@@ -1,11 +1,11 @@
-package com.ngly250.maidhalo.client;
+package com.axrecovery.maidhalo.client;
 
-import com.ngly250.maidhalo.client.halo.AscensionHaloRenderer;
-import com.ngly250.maidhalo.client.halo.BlueArchiveHaloRenderer;
-import com.ngly250.maidhalo.client.halo.CompatMods;
-import com.ngly250.maidhalo.client.halo.DomainOfFadeRenderer;
-import com.ngly250.maidhalo.client.halo.EndHaloRenderer;
-import com.ngly250.maidhalo.client.halo.UnholyHatHaloRenderer;
+import com.axrecovery.maidhalo.client.halo.AscensionHaloRenderer;
+import com.axrecovery.maidhalo.client.halo.BlueArchiveHaloRenderer;
+import com.axrecovery.maidhalo.client.halo.CompatMods;
+import com.axrecovery.maidhalo.client.halo.DomainOfFadeRenderer;
+import com.axrecovery.maidhalo.client.halo.EndHaloRenderer;
+import com.axrecovery.maidhalo.client.halo.UnholyHatHaloRenderer;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -85,10 +85,10 @@ public final class MaidHaloClientSetup {
                 try {
                     BlueArchiveHaloRenderer.preload();
                 } catch (Throwable t) {
-                    LOGGER.error("[maid_halo_compat] 初始化碧蓝档案光环渲染器失败", t);
+                    LOGGER.error("[maid_halo_compat] 初始化BA光环渲染器失败", t);
                 }
             } else {
-                LOGGER.debug("[maid_halo_compat] 未检测到 minecraftbluearchivehalo，跳过碧蓝档案光环兼容");
+                LOGGER.debug("[maid_halo_compat] 未检测到 minecraftbluearchivehalo，跳过BA光环兼容");
             }
 
             if (hasRevelationFix) {

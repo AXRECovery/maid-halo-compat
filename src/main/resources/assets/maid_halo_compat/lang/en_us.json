@@ -22,7 +22,7 @@
   "gui.maid_halo_compat.opt.general.enableEndHalo": "Halo of The-End",
   "gui.maid_halo_compat.opt.general.enableUnholyHatHalo": "Unholy Hat Halo",
   "gui.maid_halo_compat.opt.general.enableDomainOfFade": "Domain of Fade",
-  "gui.maid_halo_compat.opt.general.enableBlueArchiveHalo": "Blue Archive Halo",
+  "gui.maid_halo_compat.opt.general.enableBlueArchiveHalo": "BA Halo",
   "gui.maid_halo_compat.opt.general.unholyHatRenderFullModel": "Unholy Hat: render full hat",
   "gui.maid_halo_compat.opt.general.enableEndHaloSecondPhasePostFx": "Halo of The-End: post FX",
   "gui.maid_halo_compat.opt.general.geckoModelSpaceFlip": "GeckoLib model-space flip",
@@ -42,9 +42,9 @@
   "gui.maid_halo_compat.opt.offsets.domainOfFadeOffsetX": "Domain of Fade X",
   "gui.maid_halo_compat.opt.offsets.domainOfFadeOffsetY": "Domain of Fade Y",
   "gui.maid_halo_compat.opt.offsets.domainOfFadeOffsetZ": "Domain of Fade Z",
-  "gui.maid_halo_compat.opt.offsets.blueArchiveOffsetX": "Blue Archive X",
-  "gui.maid_halo_compat.opt.offsets.blueArchiveOffsetY": "Blue Archive Y",
-  "gui.maid_halo_compat.opt.offsets.blueArchiveOffsetZ": "Blue Archive Z",
+  "gui.maid_halo_compat.opt.offsets.blueArchiveOffsetX": "BA Halo X",
+  "gui.maid_halo_compat.opt.offsets.blueArchiveOffsetY": "BA Halo Y",
+  "gui.maid_halo_compat.opt.offsets.blueArchiveOffsetZ": "BA Halo Z",
   "gui.maid_halo_compat.config.search": "Search models",
   "gui.maid_halo_compat.config.search_hint": "Search by name or id…"
 }

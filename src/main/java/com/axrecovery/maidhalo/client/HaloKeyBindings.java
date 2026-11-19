@@ -1,6 +1,6 @@
-package com.ngly250.maidhalo.client;
+package com.axrecovery.maidhalo.client;
 
-import com.ngly250.maidhalo.client.ui.HaloConfigScreen;
+import com.axrecovery.maidhalo.client.ui.HaloConfigScreen;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;

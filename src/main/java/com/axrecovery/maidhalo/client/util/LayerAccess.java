@@ -1,4 +1,4 @@
-package com.ngly250.maidhalo.client.util;
+package com.axrecovery.maidhalo.client.util;
 
 import java.lang.reflect.Method;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;

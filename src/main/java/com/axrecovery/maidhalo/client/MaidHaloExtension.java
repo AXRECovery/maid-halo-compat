@@ -1,8 +1,8 @@
-package com.ngly250.maidhalo.client;
+package com.axrecovery.maidhalo.client;
 
-import com.ngly250.maidhalo.client.layer.MaidHaloGeoLayer;
-import com.ngly250.maidhalo.client.layer.MaidHaloRenderLayer;
-import com.ngly250.maidhalo.client.util.LayerAccess;
+import com.axrecovery.maidhalo.client.layer.MaidHaloGeoLayer;
+import com.axrecovery.maidhalo.client.layer.MaidHaloRenderLayer;
+import com.axrecovery.maidhalo.client.util.LayerAccess;
 import com.github.tartaricacid.touhoulittlemaid.api.ILittleMaid;
 import com.github.tartaricacid.touhoulittlemaid.api.LittleMaidExtension;
 import com.github.tartaricacid.touhoulittlemaid.client.renderer.entity.EntityMaidRenderer;

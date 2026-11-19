@@ -1,8 +1,8 @@
-package com.ngly250.maidhalo;
+package com.axrecovery.maidhalo;
 
-import com.ngly250.maidhalo.client.MaidHaloClientSetup;
-import com.ngly250.maidhalo.client.ui.HaloConfigScreen;
-import com.ngly250.maidhalo.config.MaidHaloConfig;
+import com.axrecovery.maidhalo.client.MaidHaloClientSetup;
+import com.axrecovery.maidhalo.client.ui.HaloConfigScreen;
+import com.axrecovery.maidhalo.config.MaidHaloConfig;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.ConfigScreenHandler;
@@ -58,8 +58,8 @@ public final class MaidHaloCompat {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(MaidHaloClientSetup::onClientSetup);
         // 打开配置页的快捷键（默认不指定按键）
         FMLJavaModLoadingContext.get().getModEventBus().addListener(
-                com.ngly250.maidhalo.client.HaloKeyBindings::onRegisterKeys);
-        MinecraftForge.EVENT_BUS.register(com.ngly250.maidhalo.client.HaloKeyBindings.class);
+                com.axrecovery.maidhalo.client.HaloKeyBindings::onRegisterKeys);
+        MinecraftForge.EVENT_BUS.register(com.axrecovery.maidhalo.client.HaloKeyBindings.class);
         ModLoadingContext.get().registerExtensionPoint(
                 ConfigScreenHandler.ConfigScreenFactory.class,
                 () -> new ConfigScreenHandler.ConfigScreenFactory((Screen parent) -> new HaloConfigScreen(parent)));

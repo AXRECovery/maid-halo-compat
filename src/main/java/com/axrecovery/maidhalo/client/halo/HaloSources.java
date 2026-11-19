@@ -1,4 +1,4 @@
-package com.ngly250.maidhalo.client.halo;
+package com.axrecovery.maidhalo.client.halo;
 
 import net.minecraft.core.NonNullList;
 import java.util.Map;
@@ -62,7 +62,7 @@ public final class HaloSources {
         if (entity == null) {
             return EquippedHalo.NONE;
         }
-        // 头盔槽优先：碧蓝档案光环是护甲物品（HaloItem extends ArmorItem(HELMET)），不经过 Curios
+        // 头盔槽优先：BA光环是护甲物品（HaloItem extends ArmorItem(HELMET)），不经过 Curios
         EquippedHalo helmet = helmetHalo(entity);
         if (helmet.kind() != HaloKind.NONE) {
             return helmet;
@@ -85,7 +85,7 @@ public final class HaloSources {
     }
 
 
-    /** 头盔槽里的光环（如碧蓝档案光环包）。 */
+    /** 头盔槽里的光环（如BA光环包）。 */
     private static EquippedHalo helmetHalo(LivingEntity entity) {
         ItemStack stack = entity.getItemBySlot(EquipmentSlot.HEAD);
         if (stack.isEmpty()) {

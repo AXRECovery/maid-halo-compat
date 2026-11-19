@@ -1,6 +1,6 @@
-package com.ngly250.maidhalo.client.halo;
+package com.axrecovery.maidhalo.client.halo;
 
-import com.ngly250.maidhalo.config.MaidHaloConfig;
+import com.axrecovery.maidhalo.config.MaidHaloConfig;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
@@ -42,7 +42,7 @@ public enum HaloKind {
      */
     DOMAIN_OF_FADE("com.mega.uom.common.items.curios.TheDomainOfFadeCurio", "fantasy_ending:the_domain_of_fade"),
     /**
-     * 碧蓝档案光环包（Blue-Archive-Halos）：物品是**头盔护甲**
+     * BA光环包（Blue-Archive-Halos）：物品是**头盔护甲**
      * （{@code HaloItem extends ArmorItem(HELMET)} 且实现 GeckoLib 的 {@code GeoItem}），
      * 玩家侧由 {@code IClientItemExtensions#getHumanoidArmorModel} 返回 GeckoLib 的 {@code GeoArmorRenderer}，
      * 交给原版 {@code HumanoidArmorLayer} 渲染。女仆没有护甲层，因此由本补丁在头盔槽检测并复用同一个渲染器。

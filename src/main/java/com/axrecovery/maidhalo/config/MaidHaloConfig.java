@@ -1,4 +1,4 @@
-package com.ngly250.maidhalo.config;
+package com.axrecovery.maidhalo.config;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -100,7 +100,7 @@ public final class MaidHaloConfig {
 
 
         ENABLE_BLUE_ARCHIVE_HALO = builder.comment(
-                        "渲染碧蓝档案光环包 (Blue-Archive-Halos) 的光环（头盔槽物品）。",
+                        "渲染BA光环包 (Blue-Archive-Halos) 的光环（头盔槽物品）。",
                         "女仆侧照搬玩家侧方案：反射复用该模组的 GeckoLib 护甲渲染器（GeoArmorRenderer）。")
                 .define("enableBlueArchiveHalo", true);
 

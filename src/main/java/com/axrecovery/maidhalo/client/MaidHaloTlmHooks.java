@@ -1,4 +1,4 @@
-package com.ngly250.maidhalo.client;
+package com.axrecovery.maidhalo.client;
 
 import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import com.github.tartaricacid.touhoulittlemaid.api.ILittleMaid;

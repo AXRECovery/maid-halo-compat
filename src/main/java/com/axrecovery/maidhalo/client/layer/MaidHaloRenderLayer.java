@@ -1,6 +1,6 @@
-package com.ngly250.maidhalo.client.layer;
+package com.axrecovery.maidhalo.client.layer;
 
-import com.ngly250.maidhalo.client.halo.HaloRenderDispatcher;
+import com.axrecovery.maidhalo.client.halo.HaloRenderDispatcher;
 import com.github.tartaricacid.simplebedrockmodel.client.bedrock.model.BedrockPart;
 import com.github.tartaricacid.touhoulittlemaid.client.model.bedrock.BedrockModel;
 import com.github.tartaricacid.touhoulittlemaid.client.renderer.entity.EntityMaidRenderer;

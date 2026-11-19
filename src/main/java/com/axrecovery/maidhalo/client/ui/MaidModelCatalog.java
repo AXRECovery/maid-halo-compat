@@ -1,4 +1,4 @@
-package com.ngly250.maidhalo.client.ui;
+package com.axrecovery.maidhalo.client.ui;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
