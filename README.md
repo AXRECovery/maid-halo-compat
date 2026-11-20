@@ -66,7 +66,7 @@
 | `general.enableEndHalo` | `true` | 终末之环 |
 | `general.enableUnholyHatHalo` | `true` | 不洁圣冠 |
 | `general.enableDomainOfFade` | `true` | 泡影之领域 |
-| `general.enableBlueArchiveHalo` | `true` | 碧蓝档案光环 |
+| `general.enableBlueArchiveHalo` | `true` | BA光环 |
 | `general.endHaloLiftDefault` | `0.0` | 终末之环整体上抬量（方块） |
 | `general.endHaloLiftByModel` | `[]` | 按模型覆盖高度，如 `["geckolib:winefox=0.5"]` |
 | `general.ascensionSpinDegreesPerSecond` | `18.0` | 晋升之环自转速度 |
@@ -77,7 +77,7 @@
 ## 兼容性说明
 
 - **纯客户端**：不需要服务端安装；在多人服务器上只在客户端生效。
-- 不修改车万女仆 / 诡厄巫法 / 诡厄巫法:启示录 / 梦幻终焉 / 碧蓝档案光环包的任何代码或资源，
+- 不修改车万女仆 / 诡厄巫法 / 诡厄巫法:启示录 / 梦幻终焉 / BA光环包的任何代码或资源，
   所有光环几何与贴图都直接调用自原模组。
 - 兼容使用 YSM 模型的女仆
   `config/yes_steve_model/custom` 里的模型，并支持按模型单独调整高度。
