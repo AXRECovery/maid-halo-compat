@@ -27,6 +27,10 @@ import org.apache.logging.log4j.Logger;
  *       这里改用「真实时间 × 配置角速度」，默认 18°/s，与 RevelationFix 对玩家的覆盖值一致。</li>
  * </ol>
  *
+ * <p><b>许可说明</b>：本类不包含任何从原模组复制的源码或资源；模型几何在运行时通过反射调用
+ * {@code PlayerHaloModel.createBodyLayer(...)} 获得，贴图也直接引用原模组命名空间下的资源。
+ * 自转行为（绕盘面法线、速度可配）为独立实现。</p>
+ *
  * <p>模型几何直接复用 Goety 的 {@code PlayerHaloModel.createBodyLayer(...)}（反射调用，避免编译期
  * 依赖整个 Goety 家族），因此外形、贴图、缩放与玩家身上完全一致。</p>
  */

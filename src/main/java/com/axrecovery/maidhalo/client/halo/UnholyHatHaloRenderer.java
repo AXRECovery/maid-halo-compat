@@ -21,7 +21,8 @@ import org.apache.logging.log4j.Logger;
 /**
  * 诡厄巫法本体「不洁圣冠」（{@code goety:unholy_hat} / {@code goety:unholy_hat_halo}）在女仆上的绘制。
  *
- * <p>玩家侧原实现是 Goety 的 {@code com.Polarice3.Goety.client.render.WearRenderer}，逐句复刻如下：</p>
+ * <p>玩家侧原实现是 Goety 的 {@code com.Polarice3.Goety.client.render.WearRenderer}（Goety 采用 MIT 许可）。
+ * 本类只按其**行为**重新实现（未复制其源码、未打包其任何资源）；模型与贴图均在运行时从 Goety 的 jar 读取。</p>
  * <ol>
  *   <li>{@code model.setupAnim(...)}：{@code head.visible = !entity.isInvisible()}、
  *       {@code halo_1.zRot = ageInTicks * 0.01F}；</li>

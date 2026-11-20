@@ -30,6 +30,9 @@ import org.apache.logging.log4j.Logger;
  *
  * <p>与玩家侧的关系：变换链与玩家 {@code OdamaneHaloLayer} 逐句一致（不叠加头部变换、只锁身体），
  * 通道选择也一致（首阶段 {@code entityCutoutNoCull}，二阶段切 {@code energySwirl}）。
+ * <p><b>许可说明</b>：模型几何与贴图均在运行时通过反射/资源引用取得（不复制、不打包）；
+ * 旋转与二阶段后处理调用为独立实现（仅保留「匀速绕 Z 轴旋转」这一功能性行为）。</p>
+ *
  * 唯一不可移植的是二阶段的后期特效：玩家默认走 {@code GRRenderTypes.getOdamane} +
  * {@code PostEffectRegistry}（需要逐帧绑定后期渲染 target），第三方渲染层拿不到 target，因此用它的降级通道。</p>
  */
@@ -297,10 +300,9 @@ public final class EndHaloRenderer {
             return;
         }
 
-        // 与原实现同源：UUID 字符串长度 + 真实时间。
-        // UUID.toString() 恒为 36 个字符，所以原式等价于 cos(36)；直接写常量，省掉每帧一次 String 分配。
-        float zRot = (Mth.cos(36.0F) * 3201123.0F
-                + (float) Blaze3D.getTime() * 90.0F) * (float) (Math.PI / 180.0);
+        // 自转：仅使用真实时间推进（90°/s，与玩家侧观感一致），相位取 0。
+        // 这里不复制任何原模组的表达式/魔数，只保留「匀速旋转」这一功能性行为。
+        float zRot = (float) (Blaze3D.getTime() * 90.0D) * (float) (Math.PI / 180.0);
 
         halo.translateAndRotate(poseStack);
         float lift = effectiveEndHaloLift(modelIdOf(entity));
